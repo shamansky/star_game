@@ -5,8 +5,6 @@ Type ### 'npm start' to run the app.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Code along exercise. All credit goes to Samer Buna @pluralsight.
-
 ## Available Scripts
 
 In the project directory, you can run:
