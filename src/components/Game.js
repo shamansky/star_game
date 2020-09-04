@@ -1,35 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import utils from '../math-utils';
+import StarsDisplay from './StarsDisplay';
+import PlayNumber from './PlayNumber';
+import PlayAgain from './PlayAgain';
 
-const StarsDisplay = props => (
-  <>
-    {utils.range(1, props.count).map(starId => (
-      <div key={starId} className="star" />
-    ))}
-  </>
-);
-
-const PlayNumber = props => (
-  <button
-    className="number"
-    style={{backgroundColor: colors[props.status]}}
-    onClick={() => props.onClick(props.number, props.status)}
-  >
-    {props.number}
-  </button>
-);
-
-const PlayAgain = props => (
-	<div className="game-done">
-  	<div
-    	className="message"
-      style={{ color: props.gameStatus === 'lost' ? 'red' : 'green'}}
-    >
-  	  {props.gameStatus === 'lost' ? 'Game Over' : 'Nice'}
-  	</div>
-	  <button onClick={props.onClick}>Play Again</button>
-	</div>
-);
 
 const useGameState = timeLimit => {
   const [stars, setStars] = useState(utils.random(1, 9));
@@ -128,51 +102,4 @@ const Game = props => {
   );
 };
 
-const StarMatch = () => {
-	const [gameId, setGameId] = useState(1);
-	return <Game key={gameId} startNewGame={() => setGameId(gameId + 1)}/>;
-}
-
-// Color Theme
-const colors = {
-  available: 'lightgray',
-  used: 'lightgreen',
-  wrong: 'lightcoral',
-  candidate: 'deepskyblue',
-};
-
-// Math science
-const utils = {
-  // Sum an array
-  sum: arr => arr.reduce((acc, curr) => acc + curr, 0),
-
-  // create an array of numbers between min and max (edges included)
-  range: (min, max) => Array.from({length: max - min + 1}, (_, i) => min + i),
-
-  // pick a random number between min and max (edges included)
-  random: (min, max) => min + Math.floor(Math.random() * (max - min + 1)),
-
-  // Given an array of numbers and a max...
-  // Pick a random sum (< max) from the set of all available sums in arr
-  randomSumIn: (arr, max) => {
-    const sets = [[]];
-    const sums = [];
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0, len = sets.length; j < len; j++) {
-        const candidateSet = sets[j].concat(arr[i]);
-        const candidateSum = utils.sum(candidateSet);
-        if (candidateSum <= max) {
-          sets.push(candidateSet);
-          sums.push(candidateSum);
-        }
-      }
-    }
-    return sums[utils.random(0, sums.length - 1)];
-  },
-};
-
-export default function App() {
-  return (
-    <StarMatch />
-  );
-}
+export default Game;
